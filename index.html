@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAILYADSTUDIO — Creative Product Advertising</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0d0d0d;
+  --off-black:#111111;
+  --surface:#161616;
+  --surface2:#1c1c1c;
+  --white:#f5f5f0;
+  --white-dim:rgba(245,245,240,0.55);
+  --gold:#c8a96e;
+  --gold-dim:rgba(200,169,110,0.4);
+  --border:rgba(245,245,240,0.08);
+  --radius:2px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--black);color:var(--white);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;cursor:default}
+
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--gold-dim)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;transition:background .4s,padding .4s}
+nav.scrolled{background:rgba(13,13,13,.92);backdrop-filter:blur(16px);padding:1.2rem 4rem;border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.75rem;letter-spacing:.35em;color:var(--white);text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:.65rem;font-weight:400;letter-spacing:.2em;color:var(--white-dim);text-decoration:none;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--gold)}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:1px;background:var(--white);transition:all .3s}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(13,13,13,.98);z-index:800;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:1rem;font-weight:400;letter-spacing:.25em;color:var(--white-dim);text-decoration:none;text-transform:uppercase;transition:color .3s}
+.mobile-menu a:hover{color:var(--gold)}
+
+#hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(200,169,110,.07) 0%,transparent 65%)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,13,.2) 0%,rgba(13,13,13,.5) 70%,var(--black) 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,245,240,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(245,245,240,.025) 1px,transparent 1px);background-size:80px 80px;z-index:0}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 2rem}
+.hero-eyebrow{font-size:.6rem;letter-spacing:.45em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp .9s .3s forwards}
+.hero-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(3rem,8vw,8rem);letter-spacing:.08em;line-height:1;color:var(--white);opacity:0;animation:fadeUp .9s .5s forwards}
+.hero-title em{font-style:italic;color:var(--gold);font-weight:300}
+.hero-subtitle{margin-top:1.5rem;font-size:clamp(.6rem,.9vw,.75rem);letter-spacing:.35em;text-transform:uppercase;color:var(--white-dim);opacity:0;animation:fadeUp .9s .7s forwards}
+.hero-line{width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);margin:3rem auto 0;opacity:0;animation:fadeIn .9s 1.2s forwards}
+.scroll-cue{margin-top:1rem;font-size:.55rem;letter-spacing:.25em;color:var(--white-dim);opacity:0;animation:fadeIn .9s 1.4s forwards;text-transform:uppercase}
+
+section{padding:8rem 0}
+.section-header{text-align:center;margin-bottom:5rem;padding:0 2rem}
+.section-tag{display:inline-block;font-size:.55rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;padding:.4rem 1rem;border:1px solid var(--gold-dim)}
+.section-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.5rem,5vw,5rem);letter-spacing:.05em;color:var(--white);line-height:1.1}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-rule{width:40px;height:1px;background:var(--gold-dim);margin:2rem auto 0}
+
+.portfolio-container{max-width:1400px;margin:0 auto;padding:0 3rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.grid-featured{display:grid;grid-template-columns:1.6fr 1fr;gap:1.5rem}
+.grid-tall{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+
+.port-item{position:relative;overflow:hidden;background:var(--surface);cursor:zoom-in}
+.port-item::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.7) 100%);opacity:0;transition:opacity .5s}
+.port-item:hover::after{opacity:1}
+.port-img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .8s cubic-bezier(.25,.46,.45,.94)}
+.port-item:hover .port-img{transform:scale(1.07)}
+.port-caption{position:absolute;bottom:0;left:0;right:0;padding:1.8rem;z-index:2;transform:translateY(8px);opacity:0;transition:all .4s}
+.port-item:hover .port-caption{opacity:1;transform:translateY(0)}
+.port-caption h4{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
+.port-caption p{font-size:.7rem;letter-spacing:.1em;color:rgba(245,245,240,.7);font-weight:300}
+.watermark{position:absolute;bottom:14px;right:16px;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,245,240,.25);z-index:3;font-weight:500;pointer-events:none;user-select:none}
+.port-item.tall{grid-row:span 2}
+.port-item.wide{grid-column:span 2}
+
+/* ── REAL IMAGES ── */
+.port-img{width:100%;height:100%;object-fit:cover;display:block}
+
+.divider{display:flex;align-items:center;gap:2rem;max-width:1400px;margin:0 auto;padding:0 3rem}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.divider-dot{width:4px;height:4px;border:1px solid var(--gold-dim);transform:rotate(45deg);flex-shrink:0}
+
+.intro-strip{padding:5rem 0;text-align:center}
+.intro-strip p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.1rem,2.5vw,1.6rem);color:var(--white-dim);max-width:700px;margin:0 auto;padding:0 2rem;line-height:1.7;letter-spacing:.02em}
+
+footer{padding:4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem}
+.footer-logo{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.7rem;letter-spacing:.4em;color:var(--white)}
+.footer-copy{font-size:.6rem;letter-spacing:.15em;color:var(--white-dim)}
+.footer-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--gold-dim)}
+
+#lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+#lightbox.open{display:flex}
+#lightbox-inner{position:relative;max-width:90vw;max-height:90vh}
+#lightbox-img{max-width:90vw;max-height:85vh;object-fit:contain;display:block;border-radius:var(--radius)}
+#lightbox-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:var(--white-dim);font-size:1.2rem;cursor:pointer;letter-spacing:.15em;font-family:'Montserrat',sans-serif;font-weight:300}
+#lightbox-close:hover{color:var(--gold)}
+#lightbox-caption{text-align:center;margin-top:1rem;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+@media(max-width:1024px){
+  .portfolio-container{padding:0 2rem}
+  .grid-featured,.grid-tall{grid-template-columns:1fr 1fr}
+  .grid-3{grid-template-columns:1fr 1fr}
+  .port-item.tall{grid-row:span 1}
+  nav{padding:1.5rem 2rem}
+  nav.scrolled{padding:1rem 2rem}
+}
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}
+  nav.scrolled{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  section{padding:5rem 0}
+  .section-header{margin-bottom:3rem}
+  .portfolio-container{padding:0 1rem}
+  .grid-2,.grid-3,.grid-featured,.grid-tall{grid-template-columns:1fr}
+  .port-item.wide,.port-item.tall{grid-column:span 1;grid-row:span 1}
+  .divider{padding:0 1rem}
+  footer{padding:2.5rem 1.5rem;flex-direction:column;align-items:flex-start;gap:1rem}
+  .hero-title{font-size:clamp(2.5rem,12vw,5rem)}
+  .section-title{font-size:clamp(2rem,8vw,3.5rem)}
+}
+@media(max-width:480px){
+  .portfolio-container{padding:0 .75rem}
+  .grid-2,.grid-3,.grid-featured,.grid-tall{gap:1rem}
+  nav{padding:1rem 1.2rem}
+  nav.scrolled{padding:.8rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">DAILYADSTUDIO</a>
+  <ul class="nav-links">
+    <li><a href="#beauty">Beauty</a></li>
+    <li><a href="#beverages">Beverages</a></li>
+    <li><a href="#perfumes">Perfumes</a></li>
+    <li><a href="#others">Others</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#beauty" onclick="closeMobile()">Beauty</a>
+  <a href="#beverages" onclick="closeMobile()">Beverages</a>
+  <a href="#perfumes" onclick="closeMobile()">Perfumes</a>
+  <a href="#others" onclick="closeMobile()">Others</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Est. 2026 — India</p>
+    <h1 class="hero-title">DAILY<em>AD</em><br>STUDIO</h1>
+    <p class="hero-subtitle">Creative Product Advertising</p>
+    <div class="hero-line"></div>
+    <p class="scroll-cue">Scroll to explore</p>
+  </div>
+</section>
+
+<!-- INTRO -->
+<div class="intro-strip reveal">
+  <p>"We don't just photograph products — we craft desire. Every frame is a narrative, every shadow a statement."</p>
+</div>
+
+<div class="divider"><div class="divider-dot"></div></div>
+
+<!-- BEAUTY -->
+<section id="beauty">
+  <div class="section-header reveal">
+    <span class="section-tag">Chapter I</span>
+    <h2 class="section-title">The <em>Beauty</em> Edit</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="portfolio-container">
+    <div class="grid-featured reveal">
+      <div class="port-item tall" data-caption="SUNSCREEN — MADE FOR REAL SKIN" data-src="images/ChatGPT Image Apr 8, 2026, 10_24_57 AM.png" onclick="openLightbox(this)">
+        <img class="port-img" src="images/ChatGPT Image Apr 8, 2026, 10_24_57 AM.png" alt="SUNSCREEN — MADE FOR REAL SKIN" style="height:100%;min-height:400px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>SUNSCREEN</h4><p>MADE FOR REAL SKIN</p></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.5rem">
+        <div class="port-item" data-caption="CLOSER VIEW — PRODUCT SHOWCASE" data-src="images/b_Ultra-realistic_macr.jpeg"" onclick="openLightbox(this)">
+          <img class="port-img" src="images/b_Ultra-realistic_macr.jpeg" alt="CLOSER VIEW-PRODUCT SHOWCASE" style="height:100%;min-height:250px;object-fit:cover">
+          <div class="watermark">DAILYADSTUDIO</div>
+          <div class="port-caption"><h4>CLOSER VIEW</h4><p>PRODUCT SHOWCASE</p></div>
+        </div>
+        <div class="port-item" data-caption="SERUM — HYDRATION THAT LASTS ALL DAY" data-src="images/b_“A_product_placed_in.png" onclick="openLightbox(this)">
+          <img class="port-img" src="images/b_“A_product_placed_in.png" alt="SERUM-HYDRATION THAT LASTS ALL DAY" style="height:100%;min-height:200px;object-fit:cover">
+          <div class="watermark">DAILYADSTUDIO</div>
+          <div class="port-caption"><h4>SERUM</h4><p>HYDRATION THAT LASTS ALL DAY</p></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem">
+      <div class="grid-2 reveal reveal-delay-1">
+        <div class="port-item" data-caption="NATURAL SHAMPOO — LIMITED EDITION AD" data-src="images/Created a premium, natural-style shampoo ad concept using clean lighting and minimal composition.jpg" onclick="openLightbox(this)">
+          <img class="port-img" src="images/Created a premium, natural-style shampoo ad concept using clean lighting and minimal composition.jpg" alt="NATURAL SHAMPOO — LIMITED EDITION AD" style="height:100%;min-height:340px;object-fit:cover">
+          <div class="watermark">DAILYADSTUDIO</div>
+          <div class="port-caption"><h4>NATURAL SHAMPOO</h4><p>LIMITED EDITION AD</p></div>
+        </div>
+        <div class="port-item" data-caption="FACEWASH — TEXTURE STUDY" data-src="images/b_Ultra-realistic_prem (2).png" onclick="openLightbox(this)">
+          <img class="port-img" src="images/b_Ultra-realistic_prem (2).png" alt="FACEWASH — TEXTURE STUDY" style="height:100%;min-height:340px;object-fit:cover">
+          <div class="watermark">DAILYADSTUDIO</div>
+          <div class="port-caption"><h4>FACEWASH</h4><p>TEXTURE STUDY</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-dot"></div></div>
+
+<!-- BEVERAGES -->
+<section id="beverages">
+  <div class="section-header reveal">
+    <span class="section-tag">Chapter II</span>
+    <h2 class="section-title"><em>Beverages</em> & Spirits</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="portfolio-container">
+    <div class="grid-3 reveal">
+      <div class="port-item" data-caption="COLD — DRINK" data-src="images/b_Ultra-premium_lifest.png" onclick="openLightbox(this)">
+        <img class="port-img" src="images/b_Ultra-premium_lifest.png" alt="COLD — DRINK" style="min-height:420px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>COLD</h4><p>DRINK</p></div>
+      </div>
+      <div class="port-item tall" data-caption="AMBER RESERVE — WHSISKY" data-src="images/pomelli_photoshoot_image_9_16_0408.png" onclick="openLightbox(this)">
+        <img class="port-img" src="images/pomelli_photoshoot_image_9_16_0408.png" alt="AMBER RESERVE — WHSISKY" style="min-height:420px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>AMBER RESERVE</h4><p>WHSISKY</p></div>
+      </div>
+      <div class="port-item" data-caption="ENERGY — DRINKS" data-src="images/b_{__prompt____A_rea.jpeg" onclick="openLightbox(this)">
+        <img class="port-img" src="images/b_{__prompt____A_rea.jpeg" alt="ENERGY — DRINKS" style="min-height:420px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>ENERGY</h4><p>DRINK</p></div>
+      </div>
+    </div>
+    <!-- <div style="margin-top:1.5rem">
+      <div class="port-item wide reveal reveal-delay-1" data-caption="Scarlet — Premium Wine" data-src="https://images.unsplash.com/photo-1474722883778-792e7990302f?w=1400&q=80" onclick="openLightbox(this)" style="grid-column:span 3">
+        <img class="port-img" src="images/Crafted visuals that sell, not just look good.Concept ad for modern beverage brands focused on f.jpg" alt="Scarlet Premium Wine" style="height: 300px;width:100%;object-fit:cover;object-position:center 60%">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>Scarlet</h4><p>Premium Wine — Still Life</p></div>
+      </div>
+    </div> -->
+  </div>
+</section>
+
+<div class="divider"><div class="divider-dot"></div></div>
+
+<!-- PERFUMES -->
+<section id="perfumes">
+  <div class="section-header reveal">
+    <span class="section-tag">Chapter III</span>
+    <h2 class="section-title">The Art of <em>Perfumery</em></h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="portfolio-container">
+    <div class="grid-2 reveal">
+      <div class="port-item" data-caption="LUXURY PERFUME — MODEL AD 1" data-src="images/a_Ultra-premium_beauty (1) (1).png"" onclick="openLightbox(this)">
+        <img class="port-img" src="images/a_Ultra-premium_beauty (1) (1).png" alt="LUXURY PERFUME — MODEL-AD 1" style="min-height:500px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>LUXURY PERFUME</h4><p>MODEL-AD 1</p></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.5rem">
+        <div class="port-item" data-caption="PERFUME — NATURAL FRAGRANCE" data-src="images/Not just creatives.We build perception.Because in 2026 — brands don’t win with products…They win.jpg" onclick="openLightbox(this)">
+          <img class="port-img" src="images/Not just creatives.We build perception.Because in 2026 — brands don’t win with products…They win.jpg" alt="PERFUME — NATURAL FRAGRANCE" style="min-height:240px;object-fit:cover">
+          <div class="watermark">DAILYADSTUDIO</div>
+          <div class="port-caption"><h4>PERFUME</h4><p>NATURAL FRAGRANCE</p></div>
+        </div>
+        <div class="port-item" data-caption="PERFUME — FLOATING" data-src="images/IMG_20260408_101313_549.jpg.jpeg" onclick="openLightbox(this)">
+          <img class="port-img" src="images/IMG_20260408_101313_549.jpg.jpeg" alt="PERFUME — FLOATING" style="min-height:240px;object-fit:cover">
+          <div class="watermark">DAILYADSTUDIO</div>
+          <div class="port-caption"><h4>PERFUME</h4><p>FLOATING </p></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem" class="grid-3 reveal reveal-delay-1">
+      <div class="port-item" data-caption="PERFUME — MODEL AD 2" data-src="images/Skin-Safe_Elegance_version_1.png" onclick="openLightbox(this)">
+        <img class="port-img" src="images/Skin-Safe_Elegance_version_1.png" alt="PERFUME — MODEL AD 2" style="min-height:300px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>PERFUME</h4><p>MODEL-AD 2</p></div>
+      </div>
+      <div class="port-item" data-caption="PERFUME — DETAIL AD" data-src="images/pomelli-image (6).png" onclick="openLightbox(this)">
+        <img class="port-img" src="images/pomelli-image (6).png" alt="PERFUME — DETAIL AD" style="min-height:300px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>PERFUME</h4><p>DETAIL AD</p></div>
+      </div>
+      <div class="port-item" data-caption="PERFUME — WATER AD" data-src="images/658267991_18047373995556548_6716643901510425022_n.jpg" onclick="openLightbox(this)">
+        <img class="port-img" src="images/658267991_18047373995556548_6716643901510425022_n.jpg" alt="PERFUME — WATER AD" style="min-height:300px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>PERFUME</h4><p>WATER-AD</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-dot"></div></div>
+
+<!-- OTHERS -->
+<section id="others">
+  <div class="section-header reveal">
+    <span class="section-tag">Chapter IV</span>
+    <h2 class="section-title">The <em>Others</em> Vault</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="portfolio-container">
+     
+    <div class="grid-3 reveal reveal-delay-1">
+      <div class="port-item" data-caption="BOTTLE — REALISM" data-src="images/pomelli_photoshoot_image_9_16_0409.png" onclick="openLightbox(this)">
+        <img class="port-img" src="images/pomelli_photoshoot_image_9_16_0409.png" alt="BOTTLE — REALISM" style="min-height:350px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>BOTTLE</h4><p>REALISM</p></div>
+      </div>
+      <div class="port-item" data-caption="DRINKS — HYDRATION" data-src="images/designarena_image_ql74stka.png" onclick="openLightbox(this)">
+        <img class="port-img" src="images/designarena_image_ql74stka.png" alt="DRINKS — HYDRATION" style="min-height:350px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>DRINKS</h4><p>HYDRATION</p></div>
+      </div>
+      <div class="port-item" data-caption="WATCH — FASHION ACCESSORIES" data-src="images/b_Extreme_macro_ultra- (1).png" onclick="openLightbox(this)">
+        <img class="port-img" src="images/b_Extreme_macro_ultra- (1).png" alt="Rouge Tableware" style="min-height:350px;object-fit:cover">
+        <div class="watermark">DAILYADSTUDIO</div>
+        <div class="port-caption"><h4>WATCH</h4><p>FASHION ACCESSORIES</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="reveal">
+  <span class="footer-logo">DAILYADSTUDIO</span>
+  <span class="footer-tagline">We make products feel alive.</span>
+  <span class="footer-copy">© 2026 DailyAdStudio. All rights reserved.</span>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox(event)">
+  <div id="lightbox-inner">
+    <button id="lightbox-close" onclick="closeLightbox()">✕ CLOSE</button>
+    <img id="lightbox-img" src="" alt="" style="max-width:85vw;max-height:80vh;object-fit:contain;display:block;border-radius:2px">
+    <p id="lightbox-caption"></p>
+  </div>
+</div>
+
+<script>
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  navbar.classList.toggle('scrolled',window.scrollY>60);
+});
+
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>{
+  mobileMenu.classList.toggle('open');
+  const spans = hamburger.querySelectorAll('span');
+  if(mobileMenu.classList.contains('open')){
+    spans[0].style.transform='rotate(45deg) translate(4px,4px)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='rotate(-45deg) translate(4px,-4px)';
+  } else {
+    spans[0].style.transform='';spans[1].style.opacity='1';spans[2].style.transform='';
+  }
+});
+function closeMobile(){
+  mobileMenu.classList.remove('open');
+  const spans = hamburger.querySelectorAll('span');
+  spans[0].style.transform='';spans[1].style.opacity='1';spans[2].style.transform='';
+}
+
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold:.12});
+revealEls.forEach(el=>io.observe(el));
+
+function openLightbox(el){
+  const src = el.getAttribute('data-src');
+  const caption = el.getAttribute('data-caption');
+  const lbImg = document.getElementById('lightbox-img');
+  lbImg.src = src;
+  lbImg.alt = caption;
+  document.getElementById('lightbox-caption').textContent = caption;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(e){
+  if(!e||e.target===document.getElementById('lightbox')||e.target===document.getElementById('lightbox-close')){
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-img').src='';
+    document.body.style.overflow='';
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox({target:document.getElementById('lightbox')});});
+
+window.addEventListener('scroll',()=>{
+  const grid = document.querySelector('.hero-grid');
+  if(grid)grid.style.transform=`translateY(${window.scrollY*.3}px)`;
+});
+</script>
+</body>
+</html>
